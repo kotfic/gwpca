@@ -10,7 +10,7 @@ explained variance of each component and a path to a figure that plots
 the data.  """
 
 setup(name='gwpca',
-      version='0.1.0',
+      version='0.1.1',
       description='An example girder worker extension',
       long_description=LONG_DESC,
       author='Chris Kotfila',
