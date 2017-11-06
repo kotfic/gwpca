@@ -8,6 +8,9 @@ def gw_pca(csv_path, output_path=None):
     if output_path is None:
         output_path = os.path.join(tempfile.mkdtemp(), 'pca.png')
 
+    import matplotlib
+    matplotlib.use('Agg')
+
     import matplotlib.pyplot as plt
     import pandas as pd
 

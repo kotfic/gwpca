@@ -32,6 +32,9 @@ setup(name='gwpca',
           "git+https://github.com/girder/girder_worker_utils/tarball/master#egg=girder_worker_utils-0.6.0"
       ],
       extras_require={
+          "girder": [
+              "girder"
+          ],
           "worker": [
               "sklearn",
               "pandas",
