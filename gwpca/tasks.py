@@ -1,7 +1,11 @@
-from girder_worker.app import app
 import os
 import tempfile
 
+from girder_worker.app import app
+from girder_worker.utils import girder_job
+
+
+@girder_job("Principal Component Analysis")
 @app.task
 def gw_pca(csv_path, output_path=None):
 
@@ -31,7 +35,8 @@ def gw_pca(csv_path, output_path=None):
     lw = 2
 
     for color, target_name in zip(colors, target_names):
-        plt.scatter(X_r[y == target_name, 0], X_r[y == target_name, 1], color=color, alpha=.8, lw=lw,
+        plt.scatter(X_r[y == target_name, 0], X_r[y == target_name, 1],
+                    color=color, alpha=.8, lw=lw,
                     label=target_name)
     plt.legend(loc='best', shadow=False, scatterpoints=1)
     plt.title('PCA of IRIS dataset')

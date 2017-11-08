@@ -1,13 +1,13 @@
 from girder.api import access
 from girder.api.describe import Description, autoDescribeRoute
-from girder.api.rest import Resource, filtermodel, getCurrentToken
+from girder.api.rest import Resource, RestException, filtermodel
 from girder.constants import AccessType, TokenScope
-from girder.models.item import Item as ItemModel
-from gwpca.tasks import gw_pca
-from gwpca import GirderFileId
-from girder.api.rest import getApiUrl
+from girder.models.file import File as FileModel
+from girder.plugins.jobs.models.job import Job as JobModel
 
-FILEID = '59fce33bf4b1490001f1eb77'
+from gwpca import GirderFileId, GirderItemMetadata, GirderUploadToItem
+from gwpca.tasks import gw_pca
+
 
 
 class PCA(Resource):
@@ -19,31 +19,42 @@ class PCA(Resource):
         self.route('POST', (':id',), self.generatePCAPlot)
 
     @access.public(scope=TokenScope.DATA_READ)
-    @filtermodel(model=ItemModel)
+    @filtermodel(model=JobModel)
     @autoDescribeRoute(
         Description('Generate PCA for item with ID.')
-        .responseClass('Item')
-        .modelParam('id', model=ItemModel, level=AccessType.READ)
+        .responseClass('Job')
+        .modelParam('id', model=FileModel, level=AccessType.READ)
         .errorResponse('ID was invalid.')
         .errorResponse('Read access was denied for the item.', 403)
     )
-    def generatePCAPlot(self, item):
-        gw_pca.delay(GirderFileId(item['_id']))
+    def generatePCAPlot(self, file):
 
-        return item
+        file_id = str(file['_id'])
+        item_id = str(file['itemId'])
 
+        if file['mimeType'] != 'text/csv':
+            raise RestException("File must be of type 'text/csv'", code=422)
+
+        from girder_client import GirderClient
+        from girder_client import _NoopProgressReporter
+        from girder.api.rest import getApiUrl, getCurrentToken
+
+        gc = GirderClient(apiUrl=getApiUrl(), progressReporterCls=_NoopProgressReporter)
+        gc.token = getCurrentToken()['_id']
+
+        a = gw_pca.delay(GirderFileId(file_id, gc=gc),
+                         girder_result_hooks=[GirderItemMetadata(item_id),
+                                              GirderUploadToItem(item_id)])
+
+        return a.job
+
+    @filtermodel(model='job', plugin='jobs')
     @autoDescribeRoute(
-        Description('Generate PCA for item with ID.')
-    )
-
+        Description('Generate PCA for item with ID.'))
     def test(self):
-        token = getCurrentToken()
+        pass
+#        a = gw_pca.delay(GirderItemIdToDirectory(ITEMID))
 
-        gw_pca.delay(
-            GirderFileId(FILEID),
-#            girder_results=[GirderItemMetadata(item['_id']),
-#                            GirderUploadToFileToItem(item['_id'])]
-        )
-
-
-        # gw_pca.delay('/gw_pca/iris.csv', girder_results="Foobar")
+#        return a.job
+        # from common_tasks.test_tasks.fib import fibonacci
+        # fibonacci.delay(20)
