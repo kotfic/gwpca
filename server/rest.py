@@ -35,14 +35,7 @@ class PCA(Resource):
         if file['mimeType'] != 'text/csv':
             raise RestException("File must be of type 'text/csv'", code=422)
 
-        from girder_client import GirderClient
-        from girder_client import _NoopProgressReporter
-        from girder.api.rest import getApiUrl, getCurrentToken
-
-        gc = GirderClient(apiUrl=getApiUrl(), progressReporterCls=_NoopProgressReporter)
-        gc.token = getCurrentToken()['_id']
-
-        a = gw_pca.delay(GirderFileId(file_id, gc=gc),
+        a = gw_pca.delay(GirderFileId(file_id),
                          girder_result_hooks=[GirderItemMetadata(item_id),
                                               GirderUploadToItem(item_id)])
 
