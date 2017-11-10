@@ -10,7 +10,7 @@ explained variance of each component and a path to a figure that plots
 the data.  """
 
 setup(name='gwpca',
-      version='0.1.1',
+      version='0.2.0',
       description='An example girder worker extension',
       long_description=LONG_DESC,
       author='Chris Kotfila',
@@ -24,7 +24,7 @@ setup(name='gwpca',
           'Natural Language :: English',
           'Programming Language :: Python'
       ],
-      install_requires = [
+      install_requires=[
           "girder_worker",
           "girder_worker_utils"
       ],
@@ -42,6 +42,7 @@ setup(name='gwpca',
               "matplotlib"
           ]
       },
+      include_package_data=True,
       entry_points={
           'girder_worker_plugins': [
               'gwpca = gwpca:GWPCAPlugin',

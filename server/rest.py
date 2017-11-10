@@ -34,10 +34,12 @@ class PCA(Resource):
         file_id = str(file['_id'])
         item_id = str(file['itemId'])
 
+
+
         if file['mimeType'] != 'text/csv':
             raise RestException("File must be of type 'text/csv'", code=422)
 
-        a = gw_pca.delay(GirderFileId(file_id),
+        a = gw_pca.delay(file['name'], GirderFileId(file_id),
                          girder_result_hooks=[GirderItemMetadata(item_id),
                                               GirderUploadToItem(item_id)])
 

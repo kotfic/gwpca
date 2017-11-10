@@ -7,7 +7,7 @@ from girder_worker.utils import girder_job
 
 @girder_job("Principal Component Analysis")
 @app.task
-def gw_pca(csv_path, output_path=None):
+def gw_pca(name, csv_path, output_path=None):
 
     if output_path is None:
         output_path = os.path.join(tempfile.mkdtemp(), 'pca.png')
@@ -39,7 +39,8 @@ def gw_pca(csv_path, output_path=None):
                     color=color, alpha=.8, lw=lw,
                     label=target_name)
     plt.legend(loc='best', shadow=False, scatterpoints=1)
-    plt.title('PCA of IRIS dataset')
+
+    plt.title('PCA of {}'.format(name))
 
     plt.savefig(output_path)
 
