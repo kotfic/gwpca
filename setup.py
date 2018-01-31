@@ -18,6 +18,8 @@ def prerelease_local_scheme(version):
     else:
         return get_local_node_and_date(version)
 
+# Just
+
 setup(name='gwpca',
       use_scm_version={'local_scheme': prerelease_local_scheme},
       description='An example girder worker extension',
