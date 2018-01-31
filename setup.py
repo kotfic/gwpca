@@ -12,6 +12,7 @@ the data.  """
 
 def prerelease_local_scheme(version):
     from setuptools_scm.version import get_local_node_and_date
+
     if 'CIRCLE_BRANCH' in os.environ and \
        os.environ['CIRCLE_BRANCH'] == 'master':
         return ''
@@ -40,7 +41,6 @@ setup(name='gwpca',
           'setuptools_scm'
       ],
       install_requires=[
-          'setuptools_scm',
           'girder_worker',
           'girder_worker_utils'
       ],
