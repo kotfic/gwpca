@@ -40,18 +40,19 @@ setup(name='gwpca',
           'setuptools_scm'
       ],
       install_requires=[
-          "girder_worker",
-          "girder_worker_utils"
+          'setuptools_scm',
+          'girder_worker',
+          'girder_worker_utils'
       ],
       extras_require={
-          "girder": [
-              "girder"
+          'girder': [
+              'girder'
           ],
-          "worker": [
-              "sklearn",
-              "pandas",
-              "scipy",
-              "matplotlib"
+          'worker': [
+              'sklearn',
+              'pandas',
+              'scipy',
+              'matplotlib'
           ]
       },
       include_package_data=True,
