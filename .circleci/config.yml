@@ -8,11 +8,27 @@ jobs:
       - checkout
 
       - run:
-          name: Build the sdist
+          name: Create a Virtualenv
           command: |
             python -m virtualenv ../venv
+
+      - run:
+          name: Install dependencies
+          command: |
+            . ../venv/bin/activate
+            pip install twine
+
+      - run:
+          name: Build the sdist
+          command: |
             . ../venv/bin/activate
             python setup.py sdist
+
+      - run:
+          name: Release
+          command: |
+            . ../venv/bin/activate
+            twine upload dist/*
 
 
 workflows:
