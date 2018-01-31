@@ -1,5 +1,4 @@
 import os
-from setuptools_scm.version import get_local_node_and_date
 from setuptools import setup, find_packages
 
 LONG_DESC="""
@@ -12,6 +11,7 @@ explained variance of each component and a path to a figure that plots
 the data.  """
 
 def prerelease_local_scheme(version):
+    from setuptools_scm.version import get_local_node_and_date
     if 'CIRCLE_BRANCH' in os.environ and \
        os.environ['CIRCLE_BRANCH'] == 'master':
         return ''
