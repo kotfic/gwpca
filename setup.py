@@ -18,7 +18,7 @@ def prerelease_local_scheme(version):
     else:
         return get_local_node_and_date(version)
 
-# Just
+# Just making
 
 setup(name='gwpca',
       use_scm_version={'local_scheme': prerelease_local_scheme},
