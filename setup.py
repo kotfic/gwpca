@@ -1,3 +1,5 @@
+import os
+from setuptools_scm.version import get_local_node_and_date
 from setuptools import setup, find_packages
 
 LONG_DESC="""
@@ -9,8 +11,15 @@ on a CSV with two components.  The task returns a dictionary with the
 explained variance of each component and a path to a figure that plots
 the data.  """
 
+def local_scheme(version):
+    if 'CIRCLE_BRANCH' in os.environ and \
+       os.environ['CIRCLE_BRANCH'] == 'master':
+        return ''
+    else:
+        return get_local_node_and_date(version)
+
 setup(name='gwpca',
-      use_scm_version=True,
+      use_scm_version={local_scheme: local_scheme},
       description='An example girder worker extension',
       long_description=LONG_DESC,
       author='Chris Kotfila',
