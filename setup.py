@@ -10,7 +10,7 @@ explained variance of each component and a path to a figure that plots
 the data.  """
 
 setup(name='gwpca',
-      version='0.2.0',
+      user_scm_version=True,
       description='An example girder worker extension',
       long_description=LONG_DESC,
       author='Chris Kotfila',
@@ -24,12 +24,13 @@ setup(name='gwpca',
           'Natural Language :: English',
           'Programming Language :: Python'
       ],
+
+      setup_requires=[
+          'setuptools_scm'
+      ],
       install_requires=[
           "girder_worker",
           "girder_worker_utils"
-      ],
-      dependency_links=[
-          "git+https://github.com/girder/girder_worker_utils/tarball/master#egg=girder_worker_utils-0.6.0"
       ],
       extras_require={
           "girder": [
