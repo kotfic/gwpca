@@ -19,4 +19,10 @@ workflows:
   version: 2
   ci:
     jobs:
-      - release
+      - release:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
+                - master
