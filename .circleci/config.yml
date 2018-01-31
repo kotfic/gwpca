@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  release:
+    docker:
+      - image: circleci/python:2.7
+
+    steps:
+      - checkout
+
+      - run:
+          name: Build the sdist
+          command: |
+            python -m virtualenv ../venv
+            . ../venv/bin/activate
+            python setup.py sdist
+
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - release
