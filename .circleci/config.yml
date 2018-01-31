@@ -16,7 +16,7 @@ jobs:
           name: Install dependencies
           command: |
             . ../venv/bin/activate
-            pip install twine
+            pip install twine setuptools_scm
 
       - run:
           name: Build the sdist
